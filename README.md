@@ -1,4 +1,4 @@
-# Digital Payment Processing Rails – U.S. Market
+# Digital Payment Processing Rails: U.S. Market
 
 This repository documents the various digital payment processing rails used in the United States. It includes technical overviews, workflows, architecture diagrams, and regulatory compliance considerations for ACH, Wire, RTP, and card-based transactions.
 
@@ -8,11 +8,11 @@ This repository documents the various digital payment processing rails used in t
 
 The United States utilizes multiple electronic payment networks for transferring funds between financial institutions. These include:
 
-- **ACH (Automated Clearing House)** – Batch-processed, low-cost, non-urgent payments (e.g., payroll, bill pay)
-- **Wire Transfers** – Immediate, high-value fund transfers (e.g., real estate, institutional payments)
-- **RTP (Real-Time Payments)** – Instant, irrevocable payments via The Clearing House (TCH)
-- **FedNow** – Federal Reserve's real-time settlement system (launched 2023)
-- **Card Networks** – Credit/debit card clearing and settlement (e.g., Visa, Mastercard)
+- **ACH (Automated Clearing House)**: Batch-processed, low-cost, non-urgent payments (e.g., payroll, bill pay)
+- **Wire Transfers**: Immediate, high-value fund transfers (e.g., real estate, institutional payments)
+- **RTP (Real-Time Payments)**: Instant, irrevocable payments via The Clearing House (TCH)
+- **FedNow**: Federal Reserve's real-time settlement system (launched 2023)
+- **Card Networks**: Credit/debit card clearing and settlement (e.g., Visa, Mastercard)
 
 ---
 
@@ -31,12 +31,12 @@ The Real-Time Payments (RTP) rail is the most modern U.S. rail, operating 24/7/3
 
 ### End-to-End Workflow
 
-1. **Payment Initiation** – Initiated by a customer or business
-2. **Validation & Authorization** – Identity, KYC/AML, and balance verification
-3. **Message Formatting** – ISO 20022 messages (e.g., `pain.001`, `pacs.008`)
-4. **Clearing & Routing** – TCH RTP routes messages in real-time
-5. **Settlement** – Funds are settled instantly using prefunded positions
-6. **Notification** – Both sender and receiver are notified in real-time
+1. **Payment Initiation**: Initiated by a customer or business
+2. **Validation & Authorization**: Identity, KYC/AML, and balance verification
+3. **Message Formatting**: ISO 20022 messages (e.g., `pain.001`, `pacs.008`)
+4. **Clearing & Routing**: TCH RTP routes messages in real-time
+5. **Settlement**: Funds are settled instantly using prefunded positions
+6. **Notification**: Both sender and receiver are notified in real-time
 
 ---
 
