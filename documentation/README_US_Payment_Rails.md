@@ -74,11 +74,9 @@ The Real-Time Payments (RTP) rail is the most modern U.S. rail, operating 24/7/3
 
 ## 📁 Repository Contents
 
-- `documentation/01_Payment_System_Overview.pdf`  
-- `documentation/02_ACH_Payment_Flow.pdf`  
-- `documentation/03_Wire_Transfer_Process.pdf`  
-- `documentation/04_SWIFT_Network_Guide.pdf`  
-- `documentation/05_RTP_System_Architecture.pdf`
+- `src/`: sample Java components for ACH, Fed, FedNow, RTP, SWIFT and Zelle  
+- `documentation/`: rail overviews, including the RTP technical overview  
+- `documentation/References.md`: links to the official rulebooks and specifications (TCH, Federal Reserve, Nacha, ISO 20022)
 
 ---
 
