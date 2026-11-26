@@ -1,4 +1,4 @@
-# Real-Time Payments (RTP) System – Technical Overview
+# Real-Time Payments (RTP) System: Technical Overview
 
 This documentation provides a comprehensive guide to understanding the Real-Time Payments (RTP) system architecture, message workflows, network participants, and industry standards.
 
@@ -19,12 +19,12 @@ Key components of RTP architecture include:
 
 ## 🔄 Standard RTP Workflow
 
-1. **Payment Initiation** – Customer or system triggers payment via digital channel.
-2. **Authorization** – Bank validates payer details, balance, and authorization.
-3. **Message Transmission** – Bank sends ISO 20022-compliant RTP message to TCH.
-4. **Clearing** – TCH validates and routes message to receiving bank.
-5. **Settlement** – Instant settlement using pre-funded positions.
-6. **Notification** – Both parties receive confirmation with unique transaction ID.
+1. **Payment Initiation**: Customer or system triggers payment via digital channel.
+2. **Authorization**: Bank validates payer details, balance, and authorization.
+3. **Message Transmission**: Bank sends ISO 20022-compliant RTP message to TCH.
+4. **Clearing**: TCH validates and routes message to receiving bank.
+5. **Settlement**: Instant settlement using pre-funded positions.
+6. **Notification**: Both parties receive confirmation with unique transaction ID.
 
 ## 📊 Common RTP Message Types (ISO 20022)
 
