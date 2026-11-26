@@ -1,83 +1,87 @@
-# Digital Payment Processing Rails: U.S. Market
+# Digital Payments System Blueprint: U.S. Rails
 
-This repository documents the various digital payment processing rails used in the United States. It includes technical overviews, workflows, architecture diagrams, and regulatory compliance considerations for ACH, Wire, RTP, and card-based transactions.
+A practical guide to the main U.S. payment rails (ACH, Fedwire, FedNow, RTP, SWIFT and Zelle), paired with Java sample code that shows the processing flows a bank runs on each one.
 
----
+## The rails at a glance
 
-## 🔁 U.S. Payment Rails Overview
+| Rail | Operator | Speed | Typical use |
+|------|----------|-------|-------------|
+| **ACH** | Nacha rules; Fed and EPN operators | Batch, same day or next day | Payroll, bill pay, direct debits |
+| **Fedwire Funds** | Federal Reserve | Real-time gross settlement | High-value and time-critical transfers |
+| **FedNow** | Federal Reserve | Instant, 24x7x365 | Instant credit transfers between banks |
+| **RTP** | The Clearing House | Instant, 24x7x365 | Instant payments and request for payment |
+| **SWIFT** | SWIFT network | Hours to days, via correspondents | Cross-border payments (MT and ISO 20022 MX) |
+| **Zelle** | Early Warning Services | Near real-time for consumers | Person-to-person payments |
 
-The United States utilizes multiple electronic payment networks for transferring funds between financial institutions. These include:
+## How an instant payment flows (RTP example)
 
-- **ACH (Automated Clearing House)**: Batch-processed, low-cost, non-urgent payments (e.g., payroll, bill pay)
-- **Wire Transfers**: Immediate, high-value fund transfers (e.g., real estate, institutional payments)
-- **RTP (Real-Time Payments)**: Instant, irrevocable payments via The Clearing House (TCH)
-- **FedNow**: Federal Reserve's real-time settlement system (launched 2023)
-- **Card Networks**: Credit/debit card clearing and settlement (e.g., Visa, Mastercard)
+1. **Initiation**: a customer or business starts a payment in a bank channel.
+2. **Validation and authorization**: the sending bank checks identity, KYC/AML, limits and balance.
+3. **Message creation**: the bank builds an ISO 20022 `pacs.008` credit transfer.
+4. **Clearing**: the network validates and routes it to the receiving bank.
+5. **Settlement**: funds settle immediately against pre-funded positions.
+6. **Confirmation**: the receiving bank responds with `pacs.002`, and both sides are notified.
 
----
+### Common ISO 20022 messages
 
-## 📐 RTP Framework & Workflow (The Clearing House)
+| Message | Name | Purpose |
+|---------|------|---------|
+| `pain.001` | Customer Credit Transfer Initiation | Customer instructs its bank to pay |
+| `pacs.008` | FI to FI Customer Credit Transfer | The interbank payment itself |
+| `pacs.002` | Payment Status Report | Accept or reject |
+| `camt.056` | FI to FI Payment Cancellation Request | Ask to recall a payment |
+| `camt.052` | Bank to Customer Account Report | Intraday account reporting |
 
-The Real-Time Payments (RTP) rail is the most modern U.S. rail, operating 24/7/365. Key characteristics include:
+## Sample code
 
-### Architecture Components
+`src/` has one package per rail: `ach`, `fed`, `fednow`, `rtp`, `swift` and `zelle`. Each one models the components a bank runs on that rail, such as message parsers and builders, duplicate checks, limit and liquidity checks, sanctions and fraud screening, routing, posting, returns and recalls, and regulatory reporting.
 
-- Originating Bank (Sender)
-- Receiving Bank (Receiver)
-- TCH RTP Network
-- ISO 20022 Messaging Layer
-- Pre-funded Settlement Accounts
-- Directory and Authentication Services
+Within a rail, the classes share a common flow template so they can be compared side by side:
 
-### End-to-End Workflow
+- Validate and route the payment
+- Enrich and normalize the instruction
+- Run risk and compliance checks
+- Post downstream to the ledger
+- Send asynchronous notifications
+- Simulate exception scenarios
+- Collect operational metrics
 
-1. **Payment Initiation**: Initiated by a customer or business
-2. **Validation & Authorization**: Identity, KYC/AML, and balance verification
-3. **Message Formatting**: ISO 20022 messages (e.g., `pain.001`, `pacs.008`)
-4. **Clearing & Routing**: TCH RTP routes messages in real-time
-5. **Settlement**: Funds are settled instantly using prefunded positions
-6. **Notification**: Both sender and receiver are notified in real-time
+Rail-specific examples include the NACHA record formatter and parser, same-day ACH eligibility, prenotes and micro-deposits for ACH; Fedline connectivity and wire type resolution for Fedwire; MT103 and MT202 formatters, BIC validation and correspondent selection for SWIFT; and alias, token and device checks for Zelle.
 
----
+The code uses only the Java standard library. To compile everything:
 
-## 📊 ISO 20022 Message Types Used in RTP
+```bash
+git clone https://github.com/RahulAutade2288/digital-payments-system-blueprint.git
+cd digital-payments-system-blueprint
+find src -name "*.java" > sources.txt
+javac -d out @sources.txt
+```
 
-| ISO Code   | Name                        | Purpose                          |
-|------------|-----------------------------|----------------------------------|
-| `pain.001` | Credit Transfer Initiation  | Payment instruction              |
-| `pacs.002` | Payment Status Report       | Acknowledgment and rejection     |
-| `pacs.008` | Financial Credit Transfer   | Actual settlement transaction    |
-| `camt.056` | Reversal Request            | Request to reverse a transaction |
-| `camt.052` | Account Notification        | Statement and balance report     |
+## Risk and compliance controls
 
----
-
-## 🏛️ Industry Standards and Governance
-
-- **TCH RTP Rulebook**
-- **NACHA Operating Rules**
-- **ISO 20022 Global Standard**
-- **Federal Reserve Payment Guidelines**
-- **FFIEC Risk Management for Payment Systems**
-
----
-
-## 🛡️ Risk & Compliance Controls
-
-- Real-time fraud screening
-- Velocity and amount-based risk rules
+- Real-time fraud screening, with velocity and amount-based rules
 - OFAC sanctions screening
 - Customer authentication and tokenization
 - Audit trails and end-to-end message traceability
 
----
+## Repository layout
 
-## 📁 Repository Contents
+```text
+digital-payments-system-blueprint/
+├── src/             Java sample code: ach, fed, fednow, rtp, swift, zelle
+├── documentation/   Rail overviews, RTP technical overview, references
+└── diagrams/        Diagram notes
+```
 
-- `src/`: sample Java components for ACH, Fed, FedNow, RTP, SWIFT and Zelle  
-- `documentation/`: rail overviews, including the RTP technical overview  
-- `documentation/References.md`: links to the official rulebooks and specifications (TCH, Federal Reserve, Nacha, ISO 20022)
+## Standards and governance
 
----
+The TCH RTP Operating Rules, Nacha Operating Rules, Federal Reserve operating circulars, ISO 20022 and FFIEC guidance all apply. Links to the official sources are in [documentation/References.md](documentation/References.md).
 
-This repository is a complete reference for fintech architects, payment engineers, and compliance analysts building or maintaining U.S.-based digital payment infrastructure.
+## Disclaimer
+
+This is an educational blueprint, not production payment software, and it is not affiliated with any payment network.
+
+## Author
+
+**Rahul Autade**, Payments Modernization & Implementation Leader
+[rahulautade2288.github.io](https://rahulautade2288.github.io/) · [LinkedIn](https://www.linkedin.com/in/rahul-autade/)
