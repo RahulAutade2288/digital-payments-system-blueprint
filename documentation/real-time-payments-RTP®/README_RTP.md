@@ -51,13 +51,9 @@ Key components of RTP architecture include:
 - Instant dispute resolution framework
 - End-to-end traceability with transaction audit trails
 
-## 📂 Included in the PDF
+## 📚 Official sources
 
-- Diagrams of RTP message flow
-- TCH clearing logic
-- Core banking integration
-- Sample ISO 20022 messages
-- Timing and processing guarantees
+The RTP operating rules, message specifications and playbooks are published by The Clearing House. See [../References.md](../References.md) for links.
 
 ---
 
